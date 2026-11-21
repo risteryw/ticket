@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заявки корпуса</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Заявки корпуса</h1>
+
+    <section class="form-section">
+      <div class="field">
+        <label for="ticket-title">Что случилось?</label>
+        <input type="text" id="ticket-title" placeholder="Например: сломался стул">
+      </div>
+
+      <div class="field">
+        <label for="ticket-room">Где?</label>
+        <input type="text" id="ticket-room" placeholder="Например: ауд. 304">
+      </div>
+
+      <div class="field">
+        <label for="ticket-category">Категория</label>
+        <select id="ticket-category">
+          <option value="">Выберите категорию</option>
+          <option value="Оборудование">Оборудование</option>
+          <option value="Аудитория">Аудитория</option>
+          <option value="Другое">Другое</option>
+        </select>
+      </div>
+
+      <button type="button" id="add-btn">Добавить заявку</button>
+      <p id="error-msg" class="error-msg"></p>
+    </section>
+
+    <section class="list-section">
+      <div class="filter-bar">
+        <input type="checkbox" id="only-open">
+        <label for="only-open">Только открытые</label>
+      </div>
+
+      <ul id="ticket-list" class="ticket-list"></ul>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
