@@ -5,9 +5,7 @@ const addBtn = document.getElementById('add-btn');
 const errorMsg = document.getElementById('error-msg');
 const ticketList = document.getElementById('ticket-list');
 
-const filterAllRadio = document.getElementById('filter-all');
-const filterOpenRadio = document.getElementById('filter-open');
-const filterClosedRadio = document.getElementById('filter-closed');
+const filterStatusSelect = document.getElementById('filter-status');
 const filterCategorySelect = document.getElementById('filter-category');
 
 const tickets = [
@@ -27,10 +25,7 @@ function renderTickets() {
     return;
   }
 
-  let statusFilter = 'all';
-  if (filterOpenRadio.checked) statusFilter = 'open';
-  if (filterClosedRadio.checked) statusFilter = 'closed';
-
+  const statusFilter = filterStatusSelect.value; 
   const selectedCategory = filterCategorySelect.value;
   let renderedCount = 0;
 
@@ -123,9 +118,7 @@ addBtn.addEventListener('click', () => {
   renderTickets();
 });
 
-filterAllRadio.addEventListener('change', renderTickets);
-filterOpenRadio.addEventListener('change', renderTickets);
-filterClosedRadio.addEventListener('change', renderTickets);
+filterStatusSelect.addEventListener('change', renderTickets);
 filterCategorySelect.addEventListener('change', renderTickets);
 
 renderTickets();
