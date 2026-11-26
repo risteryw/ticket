@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Заявки корпуса</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="container">
     <h1>Заявки корпуса</h1>
@@ -36,10 +38,22 @@
     </section>
 
     <section class="list-section">
-      <div class="filter-bar">
-        <input type="checkbox" id="only-open">
-        <label for="only-open">Только открытые</label>
+      <div class="filter-group">
+        <label> Статус: </label>
+        <label><input type="radio" name="status-filter" value="all" checked id="filter-all" /> Все</label>
+        <label><input type="radio" name="status-filter" value="open" id="filter-open" /> Только открытые</label>
+        <label><input type="radio" name="status-filter" value="closed" id="filter-closed" /> Только закрытые</label>
       </div>
+      <div class="filter-group">
+        <label for="filter-category">Фильтр по категории:</label>
+        <select id="filter-category">
+          <option value="all">Все категории</option>
+          <option value="Оборудование">Оборудование</option>
+          <option value="Аудитория">Аудитория</option>
+          <option value="Другое">Другое</option>
+        </select>
+      </div>
+
 
       <ul id="ticket-list" class="ticket-list"></ul>
     </section>
@@ -47,4 +61,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>

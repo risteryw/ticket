@@ -3,33 +3,22 @@ const roomInput = document.getElementById('ticket-room');
 const categorySelect = document.getElementById('ticket-category');
 const addBtn = document.getElementById('add-btn');
 const errorMsg = document.getElementById('error-msg');
-const onlyOpenCheckbox = document.getElementById('only-open');
 const ticketList = document.getElementById('ticket-list');
+
+const filterAllRadio = document.getElementById('filter-all');
+const filterOpenRadio = document.getElementById('filter-open');
+const filterClosedRadio = document.getElementById('filter-closed');
+const filterCategorySelect = document.getElementById('filter-category');
+
 const tickets = [
-  {
-    title: 'Проектор не включается',
-    room: '203',
-    category: 'Оборудование',
-    done: false
-  },
-  {
-    title: 'Не закрывается окно',
-    room: '105',
-    category: 'Аудитория',
-    done: false
-  },
-  {
-    title: 'В коридоре не горит свет',
-    room: 'Коридор, 2-й этаж',
-    category: 'Другое',
-    done: true
-  }
+  { title: 'Проектор не включается', room: '203', category: 'Оборудование', done: false },
+  { title: 'Не закрывается окно', room: '105', category: 'Аудитория', done: false },
+  { title: 'В коридоре не горит свет', room: 'Коридор, 2-й этаж', category: 'Другое', done: true }
 ];
 
 function renderTickets() {
   ticketList.innerHTML = '';
 
- 
   if (tickets.length === 0) {
     const emptyItem = document.createElement('li');
     emptyItem.className = 'empty-msg';
@@ -38,14 +27,17 @@ function renderTickets() {
     return;
   }
 
-  const showOnlyOpen = onlyOpenCheckbox.checked;
+  let statusFilter = 'all';
+  if (filterOpenRadio.checked) statusFilter = 'open';
+  if (filterClosedRadio.checked) statusFilter = 'closed';
+
+  const selectedCategory = filterCategorySelect.value;
   let renderedCount = 0;
 
   tickets.forEach((ticket, index) => {
-
-    if (showOnlyOpen && ticket.done) {
-      return;
-    }
+    if (statusFilter === 'open' && ticket.done) return;
+    if (statusFilter === 'closed' && !ticket.done) return;
+    if (selectedCategory !== 'all' && ticket.category !== selectedCategory) return;
 
     renderedCount++;
 
@@ -54,20 +46,27 @@ function renderTickets() {
 
     const infoDiv = document.createElement('div');
     infoDiv.className = 'ticket-info';
+
     const titleEl = document.createElement('div');
     titleEl.className = 'ticket-title';
     titleEl.textContent = ticket.title;
+
     const metaDiv = document.createElement('div');
     metaDiv.className = 'ticket-meta';
+
     const roomSpan = document.createElement('span');
     roomSpan.textContent = `Место: ${ticket.room}`;
+
     const categorySpan = document.createElement('span');
     categorySpan.textContent = `Категория: ${ticket.category}`;
+
     const statusSpan = document.createElement('span');
     statusSpan.className = ticket.done ? 'status status-done' : 'status status-open';
     statusSpan.textContent = ticket.done ? 'Выполнена' : 'Открыта';
+
     metaDiv.append(roomSpan, categorySpan, statusSpan);
     infoDiv.append(titleEl, metaDiv);
+
     const actionsDiv = document.createElement('div');
     actionsDiv.className = 'ticket-actions';
 
@@ -100,10 +99,11 @@ function renderTickets() {
   if (renderedCount === 0) {
     const emptyFilterItem = document.createElement('li');
     emptyFilterItem.className = 'empty-msg';
-    emptyFilterItem.textContent = 'Открытых заявок нет';
+    emptyFilterItem.textContent = 'Нет заявок, соответствующих выбранным фильтрам';
     ticketList.append(emptyFilterItem);
   }
 }
+
 addBtn.addEventListener('click', () => {
   const title = titleInput.value.trim();
   const room = roomInput.value.trim();
@@ -113,20 +113,19 @@ addBtn.addEventListener('click', () => {
     errorMsg.textContent = 'Пожалуйста, заполните все поля и выберите категорию.';
     return;
   }
-  errorMsg.textContent = '';
-  tickets.push({
-    title: title,
-    room: room,
-    category: category,
-    done: false
-  });
 
+  errorMsg.textContent = '';
+  tickets.push({ title: title, room: room, category: category, done: false });
+  
   titleInput.value = '';
   roomInput.value = '';
   categorySelect.value = '';
-
   renderTickets();
 });
 
-onlyOpenCheckbox.addEventListener('change', renderTickets);
+filterAllRadio.addEventListener('change', renderTickets);
+filterOpenRadio.addEventListener('change', renderTickets);
+filterClosedRadio.addEventListener('change', renderTickets);
+filterCategorySelect.addEventListener('change', renderTickets);
+
 renderTickets();
